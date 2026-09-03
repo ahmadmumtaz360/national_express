@@ -4,6 +4,7 @@ from datetime import datetime
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import streamlit as st
 
 from analytics import build_insight, calculate_kpis, daily_performance, depot_performance, route_performance
@@ -106,9 +107,15 @@ overview, network, exceptions = st.tabs(["Overview", "Network performance", "Ser
 with overview:
     left, right = st.columns([1.55, 1])
     daily = daily_performance(filtered)
-    trend = px.line(daily, x="journey_date", y="average_delay", markers=True, title="Average delay trend",
-                    labels={"average_delay":"Average delay (min)","journey_date":"Operating date"}, color_discrete_sequence=[BLUE])
-    trend.update_traces(line=dict(width=3), marker=dict(size=6))
+    trend = make_subplots(specs=[[{"secondary_y": True}]])
+    trend.add_trace(go.Scatter(x=daily["journey_date"], y=daily["journeys"], name="Journeys", mode="lines+markers",
+                               line=dict(color="#7CC4FA", width=2), marker=dict(size=5)), secondary_y=False)
+    trend.add_trace(go.Scatter(x=daily["journey_date"], y=daily["average_delay"], name="Average delay", mode="lines+markers",
+                               line=dict(color=BLUE, width=3), marker=dict(size=6)), secondary_y=True)
+    trend.update_layout(title="Journeys and delays over time")
+    trend.update_xaxes(title_text="Operating date")
+    trend.update_yaxes(title_text="Journeys", secondary_y=False)
+    trend.update_yaxes(title_text="Average delay (min)", secondary_y=True, showgrid=False)
     left.plotly_chart(polish_chart(trend), use_container_width=True)
     status_counts = filtered["journey_status"].value_counts().reindex(["On Time","Delayed","Cancelled"], fill_value=0)
     donut = go.Figure(go.Pie(labels=status_counts.index, values=status_counts.values, hole=.68, marker_colors=[GREEN,AMBER,RED],
@@ -126,7 +133,7 @@ with overview:
 
 with network:
     depot = depot_performance(filtered)
-    depot_chart = px.bar(depot, x="depot", y="on_time_pct", color="average_delay", text_auto=".1f", title="Depot reliability",
+    depot_chart = px.bar(depot, x="depot", y="on_time_pct", color="average_delay", text_auto=".1f", title="Performance by depot",
                          labels={"on_time_pct":"On-time journeys (%)","average_delay":"Avg delay","depot":"Depot"}, color_continuous_scale="RdYlGn_r")
     depot_chart.update_traces(texttemplate="%{y:.1f}%", textposition="outside")
     st.plotly_chart(polish_chart(depot_chart, 420), use_container_width=True)
