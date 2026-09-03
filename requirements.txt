@@ -3,4 +3,5 @@ pandas>=2.1,<3
 plotly>=5.18,<7
 databricks-sdk>=0.38,<1
 databricks-sql-connector>=3.5,<5
-pyarrow>=14,<22
+# Python 3.14 (used by Streamlit Community Cloud) requires PyArrow 22+.
+pyarrow>=22,<24
