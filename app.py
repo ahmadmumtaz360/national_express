@@ -30,6 +30,17 @@ div[data-testid="stPlotlyChart"]{background:var(--secondary-background-color);bo
 .kpi-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.75rem;margin:.25rem 0 1rem}.kpi-card{background:var(--secondary-background-color);border:1px solid rgba(128,128,128,.25);border-radius:14px;padding:1rem;box-shadow:0 3px 12px rgba(7,26,43,.05);min-width:0}.kpi-label{color:var(--text-color);opacity:.7;font-size:.78rem;font-weight:650;white-space:nowrap}.kpi-value{color:var(--text-color);font-size:1.52rem;font-weight:780;line-height:1.25;margin:.28rem 0;white-space:nowrap}.kpi-note{color:var(--text-color);opacity:.58;font-size:.68rem}.kpi-card:nth-child(2){border-top:3px solid #18A875}.kpi-card:nth-child(3){border-top:3px solid #F5A524}.kpi-card:nth-child(4){border-top:3px solid #E5484D}
 .section-title{color:var(--text-color);font-size:1.05rem;font-weight:720;margin:.5rem 0}.source-note{color:#AFC1D0;font-size:.75rem;line-height:1.45;padding-top:1rem}
 .stTabs [data-baseweb="tab-list"]{gap:.4rem}.stTabs [data-baseweb="tab"]{background:var(--secondary-background-color);border-radius:9px;padding:.55rem 1rem;color:var(--text-color)!important;opacity:.75}.stTabs [aria-selected="true"]{color:#20B8CD!important;font-weight:700;opacity:1}
+@media(prefers-color-scheme:light){
+  .stApp{background:linear-gradient(145deg,#F2F6FA 0%,#FAFCFD 52%,#EEF5FA 100%)}
+  .block-container{background:transparent}
+  .insight{background:linear-gradient(90deg,#E4F6F9 0%,#F0F9FB 100%);border:1px solid #CDEAF0;border-left:4px solid #20B8CD;box-shadow:0 4px 14px rgba(25,77,103,.05)}
+  .kpi-card{background:#FFFFFF;border-color:#D8E1E9;box-shadow:0 7px 20px rgba(19,52,75,.08)}
+  .kpi-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(19,52,75,.12);transition:.18s ease}
+  div[data-testid="stPlotlyChart"]{background:#FFFFFF;border-color:#D8E1E9;box-shadow:0 7px 22px rgba(19,52,75,.07)}
+  .stTabs [data-baseweb="tab"]{background:#F7FAFC;border:1px solid #E1E8EF;color:#344054!important}
+  .stTabs [aria-selected="true"]{background:#E8F7FA;color:#087F8C!important;border-color:#BFE8ED}
+  [data-testid="stDataFrame"]{background:#FFFFFF;border-color:#D8E1E9;box-shadow:0 6px 18px rgba(19,52,75,.06)}
+}
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:700px){.brandbar{align-items:flex-start}.live-pill{display:none}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>""", unsafe_allow_html=True)
 
