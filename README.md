@@ -10,6 +10,8 @@ A Databricks App proof of concept for monitoring bus journey performance. It rea
 - `analytics.py` contains framework-independent, tested calculations.
 - `scripts/generate_local_data.py` supports development without a workspace.
 
+When neither Databricks resources nor `LOCAL_DATA_PATH` are configured, the app generates the same synthetic dataset in memory. This makes preview deployments such as Streamlit Community Cloud usable while Databricks remains the production data source.
+
 ## Data contract
 
 | Column | Type | Notes |

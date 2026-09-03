@@ -27,7 +27,7 @@ def _normalise_types(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def load_journeys() -> pd.DataFrame:
-    """Load journeys, preferring an explicit local CSV for local development."""
+    """Load journeys from a local file, Databricks, or the synthetic POC fallback."""
     local_path = os.getenv("LOCAL_DATA_PATH")
     if local_path:
         path = Path(local_path)
@@ -37,10 +37,13 @@ def load_journeys() -> pd.DataFrame:
 
     warehouse_id = os.getenv("DATABRICKS_WAREHOUSE_ID")
     table_name = os.getenv("DATABRICKS_TABLE_NAME")
+    if not warehouse_id and not table_name:
+        from mock_data import generate_mock_journeys
+
+        return generate_mock_journeys()
     if not warehouse_id or not table_name:
         raise DataConfigurationError(
-            "Configure DATABRICKS_WAREHOUSE_ID and DATABRICKS_TABLE_NAME, "
-            "or set LOCAL_DATA_PATH for local development."
+            "DATABRICKS_WAREHOUSE_ID and DATABRICKS_TABLE_NAME must be configured together."
         )
     if not TABLE_NAME_PATTERN.fullmatch(table_name):
         raise DataConfigurationError("DATABRICKS_TABLE_NAME must be catalog.schema.table")
