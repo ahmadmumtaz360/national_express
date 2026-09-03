@@ -11,37 +11,24 @@ from data_access import load_journeys
 
 st.set_page_config(page_title="NX Operations Control", page_icon="🚌", layout="wide")
 NAVY, BLUE, CYAN, GREEN, AMBER, RED = "#071A2B", "#0B65D8", "#20B8CD", "#18A875", "#F5A524", "#E5484D"
-dark_mode = st.sidebar.toggle("Dark mode", value=False, help="Switch the operations console appearance")
-APP_BG = "#08131F" if dark_mode else "#F4F7FA"
-SURFACE = "#102131" if dark_mode else "#FFFFFF"
-SURFACE_ALT = "#13283B" if dark_mode else "#F7FBFC"
-TEXT = "#E8F0F6" if dark_mode else NAVY
-TEXT_MUTED = "#9FB2C3" if dark_mode else "#667085"
-BORDER = "#294156" if dark_mode else "#E4EAF0"
-INSIGHT_BG = "#102C3A" if dark_mode else "#E9F7FA"
-INSIGHT_TEXT = "#D9F4F7" if dark_mode else "#133047"
-
-st.markdown(f"""<style>:root{{--app-bg:{APP_BG};--surface:{SURFACE};--surface-alt:{SURFACE_ALT};--app-text:{TEXT};
---muted:{TEXT_MUTED};--border:{BORDER};--insight-bg:{INSIGHT_BG};--insight-text:{INSIGHT_TEXT};}}</style>""", unsafe_allow_html=True)
 
 st.markdown("""
 <style>
-.stApp{background:var(--app-bg);color:var(--app-text)}.block-container{padding-top:1.4rem;padding-bottom:3rem;max-width:1500px}
+.stApp{background:#F4F7FA}.block-container{padding-top:1.4rem;padding-bottom:3rem;max-width:1500px}
 [data-testid="stSidebar"]{background:#071A2B}[data-testid="stSidebar"] *{color:#F7FAFC!important}
 [data-testid="stSidebar"] [data-baseweb="select"]>div,[data-testid="stSidebar"] input{background:#102C44;border-color:#29465F}
-[data-testid="stMetric"]{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem 1.05rem;box-shadow:0 3px 12px rgba(7,26,43,.05)}
-[data-testid="stMetricLabel"]{color:var(--muted);font-weight:600}[data-testid="stMetricValue"]{color:var(--app-text);font-weight:750}
-div[data-testid="stPlotlyChart"]{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:.35rem;box-shadow:0 3px 12px rgba(7,26,43,.04)}
-[data-testid="stDataFrame"]{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+[data-testid="stMetric"]{background:white;border:1px solid #E4EAF0;border-radius:14px;padding:1rem 1.05rem;box-shadow:0 3px 12px rgba(7,26,43,.05)}
+[data-testid="stMetricLabel"]{color:#667085;font-weight:600}[data-testid="stMetricValue"]{color:#071A2B;font-weight:750}
+div[data-testid="stPlotlyChart"]{background:white;border:1px solid #E4EAF0;border-radius:14px;padding:.35rem;box-shadow:0 3px 12px rgba(7,26,43,.04)}
 .brandbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;background:linear-gradient(115deg,#071A2B 0%,#0C3254 70%,#0B65D8 100%);color:white;padding:1.35rem 1.5rem;border-radius:18px;margin-bottom:1rem;box-shadow:0 10px 30px rgba(7,26,43,.18)}
 .brand-left{display:flex;align-items:center;gap:1rem}.brand-logo{width:54px;height:54px;border-radius:15px;background:#20B8CD;display:grid;place-items:center;color:#071A2B;font-size:25px;font-weight:900;box-shadow:inset 0 -4px 0 rgba(0,0,0,.12)}
 .brand-title{font-size:1.55rem;font-weight:760;line-height:1.15}.brand-subtitle{color:#B9C9D8;font-size:.86rem;margin-top:.25rem}
 .live-pill{white-space:nowrap;background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:.5rem .75rem;font-size:.78rem}
 .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#32D583;margin-right:.4rem;box-shadow:0 0 0 4px rgba(50,213,131,.15)}
-.insight{background:var(--insight-bg);border-left:4px solid #20B8CD;color:var(--insight-text);border-radius:10px;padding:.85rem 1rem;margin:.35rem 0 1rem}
-.kpi-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.75rem;margin:.25rem 0 1rem}.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;box-shadow:0 3px 12px rgba(7,26,43,.05);min-width:0}.kpi-label{color:var(--muted);font-size:.78rem;font-weight:650;white-space:nowrap}.kpi-value{color:var(--app-text);font-size:1.52rem;font-weight:780;line-height:1.25;margin:.28rem 0;white-space:nowrap}.kpi-note{color:var(--muted);font-size:.68rem}.kpi-card:nth-child(2){border-top:3px solid #18A875}.kpi-card:nth-child(3){border-top:3px solid #F5A524}.kpi-card:nth-child(4){border-top:3px solid #E5484D}
-.section-title{color:var(--app-text);font-size:1.05rem;font-weight:720;margin:.5rem 0}.source-note{color:#AFC1D0;font-size:.75rem;line-height:1.45;padding-top:1rem}
-.stTabs [data-baseweb="tab-list"]{gap:.4rem}.stTabs [data-baseweb="tab"]{background:var(--surface);border-radius:9px;padding:.55rem 1rem;color:var(--muted)!important}.stTabs [aria-selected="true"]{color:#20B8CD!important;font-weight:700}
+.insight{background:linear-gradient(90deg,#E9F7FA,#F7FBFC);border-left:4px solid #20B8CD;color:#133047;border-radius:10px;padding:.85rem 1rem;margin:.35rem 0 1rem}
+.kpi-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.75rem;margin:.25rem 0 1rem}.kpi-card{background:white;border:1px solid #E4EAF0;border-radius:14px;padding:1rem;box-shadow:0 3px 12px rgba(7,26,43,.05);min-width:0}.kpi-label{color:#667085;font-size:.78rem;font-weight:650;white-space:nowrap}.kpi-value{color:#071A2B;font-size:1.52rem;font-weight:780;line-height:1.25;margin:.28rem 0;white-space:nowrap}.kpi-note{color:#98A2B3;font-size:.68rem}.kpi-card:nth-child(2){border-top:3px solid #18A875}.kpi-card:nth-child(3){border-top:3px solid #F5A524}.kpi-card:nth-child(4){border-top:3px solid #E5484D}
+.section-title{color:#071A2B;font-size:1.05rem;font-weight:720;margin:.5rem 0}.source-note{color:#AFC1D0;font-size:.75rem;line-height:1.45;padding-top:1rem}
+.stTabs [data-baseweb="tab-list"]{gap:.4rem}.stTabs [data-baseweb="tab"]{background:white;border-radius:9px;padding:.55rem 1rem;color:#475467!important}.stTabs [aria-selected="true"]{color:#0B65D8!important;font-weight:700}
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:700px){.brandbar{align-items:flex-start}.live-pill{display:none}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>""", unsafe_allow_html=True)
 
@@ -52,12 +39,12 @@ def get_data() -> pd.DataFrame:
 
 
 def polish_chart(figure, height=365):
-    figure.update_layout(height=height, margin=dict(l=20, r=20, t=58, b=20), paper_bgcolor=SURFACE, plot_bgcolor=SURFACE,
-                         font=dict(family="Arial, sans-serif", color=TEXT, size=12), title=dict(font=dict(size=16, color=TEXT)),
+    figure.update_layout(height=height, margin=dict(l=20, r=20, t=58, b=20), paper_bgcolor="white", plot_bgcolor="white",
+                         font=dict(family="Arial, sans-serif", color=NAVY, size=12), title=dict(font=dict(size=16, color=NAVY)),
                          legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
                          hoverlabel=dict(bgcolor=NAVY, font_color="white"))
-    figure.update_xaxes(showgrid=False, linecolor=BORDER)
-    figure.update_yaxes(gridcolor=BORDER, zeroline=False)
+    figure.update_xaxes(showgrid=False, linecolor="#E4EAF0")
+    figure.update_yaxes(gridcolor="#EDF1F5", zeroline=False)
     return figure
 
 
